@@ -2,18 +2,20 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-<meta name="theme-color" content="#29B6F6">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0284C7">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Ayo Cocokkan! - PAUD Ar-Rahmah Makassar</title>
+
 <!-- Google Fonts dengan Fallback System Font yang Aman & Offline Ready -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&family=Amiri:wght@700&display=swap" rel="stylesheet">
+
 <style>
   :root{
-    /* Branding Palette: Biru Langit, Dominan Putih, Aksen Emas (Gold) */
+    /* Branding Palette: Biru Langit, Dominan Putih Bersih, Aksen Emas */
     --sky-50: #F0F9FF;
     --sky-100: #E0F2FE;
     --sky-200: #BAE6FD;
@@ -34,7 +36,6 @@
     --gold-700: #B45309;
 
     --white: #FFFFFF;
-    --card-bg: #FFFFFF;
     --ink-900: #0F172A;
     --ink-800: #1E293B;
     --ink-700: #334155;
@@ -43,23 +44,36 @@
 
     --correct: #0284C7;
     --wrong: #EF4444;
-    --shadow-sm: 0 4px 12px rgba(2, 132, 199, 0.08);
-    --shadow-md: 0 10px 25px rgba(2, 132, 199, 0.12);
-    --shadow-lg: 0 20px 40px rgba(12, 74, 110, 0.15);
+    --shadow-sm: 0 3px 10px rgba(2, 132, 199, 0.08);
+    --shadow-md: 0 8px 22px rgba(2, 132, 199, 0.12);
+    --shadow-lg: 0 16px 36px rgba(12, 74, 110, 0.15);
   }
 
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  html,body{margin:0;padding:0;}
+  *{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+  }
+  
+  html, body{
+    margin:0;
+    padding:0;
+    width:100%;
+    min-height:100%;
+    overflow-x:hidden;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+
   body{
     font-family:'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     background:
-      radial-gradient(circle at 10% 10%, #E0F2FE 0%, transparent 45%),
-      radial-gradient(circle at 90% 85%, #FEF3C7 0%, transparent 40%),
+      radial-gradient(circle at 10% 8%, #E0F2FE 0%, transparent 45%),
+      radial-gradient(circle at 90% 90%, #FEF3C7 0%, transparent 40%),
       radial-gradient(circle at 50% 50%, #FFFFFF 0%, #F0F9FF 100%);
-    min-height:100vh;
+    background-attachment: fixed;
     color:var(--ink-900);
-    overflow-x:hidden;
     user-select:none;
+    -webkit-user-select:none;
   }
 
   h1,h2,h3,h4,.font-display{
@@ -69,67 +83,77 @@
     font-family:'Amiri', 'Traditional Arabic', serif;
   }
 
-  .screen{display:none; min-height:100vh; flex-direction:column; align-items:center; padding:16px 16px 60px;}
+  .screen{
+    display:none;
+    width:100%;
+    min-height:100vh;
+    flex-direction:column;
+    align-items:center;
+    padding:16px 14px calc(60px + env(safe-area-inset-bottom, 20px));
+    position:relative;
+    z-index:1;
+  }
   .screen.active{display:flex;}
 
   /* Floating Background Elements */
   .decor{
-    position:fixed; font-size:32px; opacity:.4; pointer-events:none;
+    position:fixed; font-size:30px; opacity:.35; pointer-events:none;
     animation:floatSlow 8s ease-in-out infinite; z-index:0;
   }
   @keyframes floatSlow{
     0%,100%{transform:translateY(0) rotate(-4deg);}
-    50%{transform:translateY(-18px) rotate(6deg);}
+    50%{transform:translateY(-16px) rotate(6deg);}
   }
 
   /* Top Right Control Bar */
   .top-bar{
-    position:fixed; top:14px; right:14px; z-index:100;
+    position:fixed; top:calc(12px + env(safe-area-inset-top, 0px)); right:12px; z-index:100;
     display:flex; gap:8px; align-items:center;
   }
   .top-btn{
-    width:44px; height:44px; border-radius:50%; border:2px solid var(--sky-100);
-    background:var(--white); box-shadow:var(--shadow-sm); font-size:19px;
+    width:42px; height:42px; border-radius:50%; border:2px solid var(--sky-100);
+    background:var(--white); box-shadow:var(--shadow-sm); font-size:18px;
     cursor:pointer; display:flex; align-items:center; justify-content:center;
     transition:all .18s ease; color:var(--sky-700);
   }
-  .top-btn:hover{transform:scale(1.08); border-color:var(--sky-300);}
+  .top-btn:hover{transform:scale(1.06); border-color:var(--sky-300);}
   .top-btn:active{transform:scale(0.92);}
   .top-btn.off{background:#F1F5F9; color:var(--ink-500); opacity:0.75;}
 
   /* ---------- MENU UTAMA ---------- */
   .brand-pill{
-    display:flex; align-items:center; gap:12px; margin-top:6px; z-index:2;
-    background:var(--white); padding:8px 22px; border-radius:999px;
+    display:flex; align-items:center; gap:10px; margin-top:4px; z-index:2;
+    background:var(--white); padding:8px 18px; border-radius:999px;
     box-shadow:var(--shadow-md); border:2px solid var(--sky-100);
+    max-width:94%;
   }
   .brand-logo{
-    width:46px; height:46px; border-radius:14px;
+    width:42px; height:42px; border-radius:13px; flex-shrink:0;
     background:linear-gradient(135deg, var(--sky-400), var(--sky-700));
-    display:flex; align-items:center; justify-content:center; font-size:24px;
-    box-shadow:0 4px 10px rgba(14,165,233,0.3); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:22px;
+    box-shadow:0 3px 8px rgba(14,165,233,0.3); color:#fff;
   }
-  .brand-info h2{margin:0; font-size:21px; color:var(--sky-900); line-height:1.1;}
-  .brand-info span{font-size:11.5px; font-weight:800; color:var(--gold-600); letter-spacing:1.2px; text-transform:uppercase;}
+  .brand-info h2{margin:0; font-size:19px; color:var(--sky-900); line-height:1.1;}
+  .brand-info span{font-size:11px; font-weight:800; color:var(--gold-600); letter-spacing:1px; text-transform:uppercase;}
 
-  .hero{text-align:center; margin:16px 0 10px; z-index:2;}
+  .hero{text-align:center; margin:14px 0 8px; z-index:2;}
   .hero h1{
-    font-size:clamp(32px, 6.5vw, 48px); margin:0; color:var(--sky-800);
-    text-shadow: 3px 3px 0 rgba(245, 158, 11, 0.4);
-    letter-spacing:-0.5px;
+    font-size:clamp(28px, 6vw, 46px); margin:0; color:var(--sky-800);
+    text-shadow: 2px 2px 0 rgba(245, 158, 11, 0.35);
+    letter-spacing:-0.5px; line-height:1.15;
   }
-  .hero p{font-size:clamp(14px, 2.6vw, 17px); font-weight:700; color:var(--ink-700); margin:6px 0 0;}
-  .mascot-hero{font-size:72px; display:inline-block; animation:bobMascot 2.4s ease-in-out infinite; cursor:pointer;}
-  @keyframes bobMascot{0%,100%{transform:translateY(0) rotate(-3deg);} 50%{transform:translateY(-12px) rotate(4deg);}}
+  .hero p{font-size:clamp(13.5px, 2.5vw, 16px); font-weight:700; color:var(--ink-700); margin:6px 0 0;}
+  .mascot-hero{font-size:66px; display:inline-block; animation:bobMascot 2.4s ease-in-out infinite; cursor:pointer;}
+  @keyframes bobMascot{0%,100%{transform:translateY(0) rotate(-3deg);} 50%{transform:translateY(-10px) rotate(4deg);}}
 
   /* Filter Kategori Menu */
   .category-filter{
-    display:flex; gap:8px; margin:16px 0 6px; z-index:2; flex-wrap:wrap; justify-content:center;
+    display:flex; gap:6px; margin:14px 0 6px; z-index:2; flex-wrap:wrap; justify-content:center;
     max-width:920px; width:100%;
   }
   .filter-btn{
     background:var(--white); border:2px solid var(--sky-100); border-radius:999px;
-    padding:7px 16px; font-family:'Baloo 2'; font-weight:800; font-size:14px; color:var(--ink-700);
+    padding:6px 14px; font-family:'Baloo 2'; font-weight:800; font-size:13.5px; color:var(--ink-700);
     cursor:pointer; transition:all .18s ease; box-shadow:var(--shadow-sm);
   }
   .filter-btn:hover{border-color:var(--sky-300); color:var(--sky-700);}
@@ -138,208 +162,236 @@
     color:#fff; border-color:transparent; box-shadow:0 4px 12px rgba(14,165,233,0.35);
   }
 
-  /* Level Grid (12 Tingkatan Lengkap) */
+  /* Level Grid */
   .levels-grid{
-    display:grid; gap:16px; width:100%; max-width:960px; margin-top:14px; z-index:2;
-    grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+    display:grid; gap:14px; width:100%; max-width:960px; margin-top:12px; z-index:2;
+    grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));
   }
   .level-card{
-    background:var(--white); border-radius:24px; padding:22px 20px; box-shadow:var(--shadow-md);
-    border:3px solid var(--sky-100); cursor:pointer; text-align:left; position:relative; overflow:hidden;
+    background:var(--white); border-radius:22px; padding:18px 16px; box-shadow:var(--shadow-md);
+    border:2.5px solid var(--sky-100); cursor:pointer; text-align:left; position:relative; overflow:hidden;
     transition:all .22s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .level-card::before{
-    content:''; position:absolute; top:0; left:0; right:0; height:6px;
+    content:''; position:absolute; top:0; left:0; right:0; height:5px;
     background:linear-gradient(90deg, var(--sky-400), var(--gold-400));
-    opacity:0.9;
   }
   .level-card:hover{
-    transform:translateY(-6px) scale(1.02);
+    transform:translateY(-4px) scale(1.02);
     border-color:var(--sky-400); box-shadow:var(--shadow-lg);
   }
   .level-card:active{transform:translateY(-1px) scale(0.99);}
 
   .level-badge-top{
-    display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:800;
-    padding:4px 12px; border-radius:999px; color:var(--sky-800); background:var(--sky-50);
-    border:1px solid var(--sky-200); margin-bottom:10px;
+    display:inline-flex; align-items:center; font-size:11.5px; font-weight:800;
+    padding:3px 10px; border-radius:999px; color:var(--sky-800); background:var(--sky-50);
+    border:1px solid var(--sky-200); margin-bottom:8px;
   }
-  .level-card h3{margin:0 0 4px; font-size:20px; color:var(--ink-900); line-height:1.2;}
-  .level-card p{margin:0 0 14px; font-size:13px; color:var(--ink-500); font-weight:700;}
-  .level-corner-icon{position:absolute; right:16px; top:18px; font-size:36px; opacity:.9;}
-  .stars-display{font-size:22px; letter-spacing:4px;}
+  .level-card h3{margin:0 0 3px; font-size:18px; color:var(--ink-900); line-height:1.2;}
+  .level-card p{margin:0 0 10px; font-size:12.5px; color:var(--ink-500); font-weight:700;}
+  .level-corner-icon{position:absolute; right:14px; top:16px; font-size:32px; opacity:.9;}
+  .stars-display{font-size:20px; letter-spacing:3px;}
   .star-dim{color:#E2E8F0;}
-  .star-lit{color:var(--gold-500); text-shadow:0 0 8px rgba(245,158,11,0.6);}
+  .star-lit{color:var(--gold-500); text-shadow:0 0 6px rgba(245,158,11,0.6);}
 
-  /* Reset & Piagam Bar */
   .menu-footer{
-    margin-top:28px; display:flex; gap:12px; z-index:2; flex-wrap:wrap; justify-content:center;
+    margin-top:24px; display:flex; gap:12px; z-index:2; flex-wrap:wrap; justify-content:center;
   }
   .btn-secondary{
     background:var(--white); border:2px solid var(--gold-400); color:var(--gold-700);
-    border-radius:16px; padding:10px 20px; font-family:'Baloo 2'; font-weight:800; font-size:15px;
+    border-radius:14px; padding:8px 18px; font-family:'Baloo 2'; font-weight:800; font-size:14px;
     cursor:pointer; box-shadow:var(--shadow-sm); transition:all .15s ease;
   }
-  .btn-secondary:hover{background:var(--gold-50); transform:translateY(-2px);}
+  .btn-secondary:hover{background:var(--gold-50);}
 
   /* ---------- GAMEPLAY SCREEN ---------- */
   .game-top-nav{
     width:100%; max-width:840px; display:flex; align-items:center; justify-content:space-between;
-    gap:10px; margin-bottom:8px; z-index:2;
+    gap:8px; margin-bottom:6px; z-index:2;
   }
   .back-btn{
-    background:var(--white); border:2px solid var(--sky-100); border-radius:16px;
-    padding:9px 18px; font-weight:800; font-size:15px; box-shadow:var(--shadow-sm);
+    background:var(--white); border:2px solid var(--sky-100); border-radius:14px;
+    padding:8px 14px; font-weight:800; font-size:14px; box-shadow:var(--shadow-sm);
     cursor:pointer; color:var(--sky-700); font-family:'Baloo 2'; transition:all .15s ease;
-    display:flex; align-items:center; gap:6px;
+    display:flex; align-items:center; gap:4px; flex-shrink:0;
   }
-  .back-btn:hover{border-color:var(--sky-300); background:var(--sky-50);}
   .back-btn:active{transform:scale(0.95);}
 
   .game-title-badge{
-    flex:1; text-align:center; background:var(--white); padding:8px 16px; border-radius:999px;
-    box-shadow:var(--shadow-sm); border:2px solid var(--sky-100);
+    flex:1; text-align:center; background:var(--white); padding:6px 12px; border-radius:999px;
+    box-shadow:var(--shadow-sm); border:2px solid var(--sky-100); min-width:0;
   }
-  .game-title-badge h2{margin:0; font-size:clamp(16px, 3.4vw, 22px); color:var(--sky-800);}
+  .game-title-badge h2{
+    margin:0; font-size:clamp(15px, 3.2vw, 20px); color:var(--sky-800);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
   
-  .game-mascot{font-size:38px; transition:transform .25s ease; cursor:pointer;}
+  .game-mascot{font-size:34px; transition:transform .25s ease; cursor:pointer; flex-shrink:0;}
   .game-mascot.happy{animation:pop .5s ease;}
   .game-mascot.sad{animation:shakeMascot .5s ease;}
   @keyframes pop{0%{transform:scale(1);}40%{transform:scale(1.4) rotate(10deg);}100%{transform:scale(1);}}
   @keyframes shakeMascot{0%,100%{transform:translateX(0);}25%{transform:translateX(-8px) rotate(-8deg);}75%{transform:translateX(8px) rotate(8deg);}}
 
   .instruction-box{
-    max-width:840px; width:100%; background:var(--white); border-radius:18px; padding:10px 18px;
-    margin:4px 0 12px; font-weight:800; color:var(--sky-900); box-shadow:var(--shadow-sm);
-    font-size:clamp(13px, 2.4vw, 16px); z-index:2; display:flex; align-items:center; justify-content:center; gap:10px;
-    border:2px solid var(--sky-100);
+    max-width:840px; width:100%; background:var(--white); border-radius:16px; padding:8px 14px;
+    margin:4px 0 10px; font-weight:800; color:var(--sky-900); box-shadow:var(--shadow-sm);
+    font-size:clamp(12.5px, 2.3vw, 15px); z-index:2; display:flex; align-items:center; justify-content:center; gap:8px;
+    border:2px solid var(--sky-100); text-align:center; line-height:1.25;
   }
   .instruction-sound-btn{
-    background:var(--sky-50); border:1px solid var(--sky-200); border-radius:50%; width:30px; height:30px;
-    display:inline-flex; align-items:center; justify-content:center; font-size:15px; cursor:pointer;
-    transition:transform .15s ease; color:var(--sky-700);
+    background:var(--sky-50); border:1px solid var(--sky-200); border-radius:50%; width:28px; height:28px;
+    display:inline-flex; align-items:center; justify-content:center; font-size:14px; cursor:pointer;
+    flex-shrink:0; color:var(--sky-700);
   }
-  .instruction-sound-btn:active{transform:scale(0.9);}
 
   .progress-tracker{
-    display:flex; gap:8px; margin-bottom:12px; z-index:2; align-items:center; justify-content:center;
+    display:flex; gap:6px; margin-bottom:10px; z-index:2; align-items:center; justify-content:center; flex-wrap:wrap;
   }
   .progress-bubble{
-    width:15px; height:15px; border-radius:50%; background:#E2E8F0;
+    width:13px; height:13px; border-radius:50%; background:#E2E8F0;
     border:2px solid var(--white); box-shadow:0 2px 4px rgba(0,0,0,0.06);
     transition:all .3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .progress-bubble.done{
     background:linear-gradient(135deg, var(--gold-400), var(--gold-600));
-    transform:scale(1.25); box-shadow:0 0 8px rgba(245,158,11,0.5);
+    transform:scale(1.25); box-shadow:0 0 6px rgba(245,158,11,0.5);
   }
 
-  /* Papan Permainan (Board) */
+  /* Papan Permainan (Board Container) - Scrollable & Responsive */
   .board-container{
-    width:100%; max-width:840px; background:var(--white); border-radius:28px; padding:22px 14px;
-    z-index:2; box-shadow:var(--shadow-lg); border:3px solid var(--sky-100);
+    width:100%; max-width:840px; background:var(--white); border-radius:24px; padding:16px 12px;
+    z-index:2; box-shadow:var(--shadow-lg); border:2.5px solid var(--sky-100);
+    margin-bottom:20px;
   }
   .board{
-    position:relative; display:flex; justify-content:space-between; gap:12px; touch-action:none;
+    position:relative; display:flex; justify-content:space-between; gap:10px;
+    touch-action: pan-y; /* Memperbolehkan scroll layar secara normal di mobile */
+    min-height:220px;
   }
-  .board svg{position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; overflow:visible;}
+  .board svg{
+    position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; overflow:visible;
+  }
   
-  .board-col{display:flex; flex-direction:column; gap:16px; width:47%; z-index:2;}
+  .board-col{display:flex; flex-direction:column; gap:12px; width:48%; z-index:2;}
   .board-col-head{
-    text-align:center; font-family:'Baloo 2'; font-weight:800; font-size:14px; color:#fff;
-    border-radius:14px; padding:8px 8px; margin-bottom:2px; letter-spacing:0.8px;
+    text-align:center; font-family:'Baloo 2'; font-weight:800; font-size:13px; color:#fff;
+    border-radius:12px; padding:6px 6px; margin-bottom:2px; letter-spacing:0.6px;
     text-transform:uppercase; box-shadow:var(--shadow-sm);
   }
   .col-left .board-col-head{background:linear-gradient(135deg, var(--sky-500), var(--sky-700));}
   .col-right .board-col-head{background:linear-gradient(135deg, var(--gold-500), var(--gold-700));}
 
-  /* Kartu Node */
+  /* Kartu Node yang Responsif untuk Mobile */
   .node{
-    position:relative; margin:0 auto; width:100%; max-width:145px; aspect-ratio:1/1;
-    border-radius:50%; background:var(--white); border:4px dashed var(--sky-200);
+    position:relative; margin:0 auto; width:100%; max-width:130px; aspect-ratio:1/1;
+    border-radius:50%; background:var(--white); border:3px dashed var(--sky-200);
     display:flex; align-items:center; justify-content:center;
-    font-family:'Baloo 2'; font-weight:800; font-size:clamp(24px, 5.2vw, 38px); color:var(--ink-900);
+    font-family:'Baloo 2'; font-weight:800; font-size:clamp(22px, 4.8vw, 36px); color:var(--ink-900);
     cursor:pointer; box-shadow:var(--shadow-sm);
-    transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease, background-color .18s ease;
-    touch-action:none; text-align:center; padding:8px;
+    transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+    text-align:center; padding:6px;
+    touch-action: manipulation; /* Responsif sentuhan */
   }
-  .node:hover{transform:scale(1.05); border-color:var(--sky-400);}
+  .node:hover{transform:scale(1.04); border-color:var(--sky-400);}
   .node:active{transform:scale(0.96);}
-  .node.emoji-icon{font-size:clamp(34px, 6.5vw, 50px);}
-  .node.arabic-char{font-family:'Amiri', serif; font-size:clamp(36px, 6.8vw, 52px); color:var(--sky-800);}
-  .node.text-node{font-size:clamp(16px, 3.2vw, 22px); line-height:1.15; font-weight:800; color:var(--ink-800);}
+  
+  .node.emoji-icon{font-size:clamp(30px, 6vw, 46px);}
+  .node.arabic-char{font-family:'Amiri', serif; font-size:clamp(32px, 6.2vw, 48px); color:var(--sky-800);}
+  
+  /* Mode Teks (Pill shape agar teks panjang muat rapi di mobile) */
+  .node.text-node{
+    aspect-ratio:auto;
+    min-height:56px;
+    border-radius:18px;
+    font-size:clamp(13.5px, 2.8vw, 18px);
+    line-height:1.2;
+    font-weight:800;
+    color:var(--ink-800);
+    padding:8px 12px;
+  }
 
   .node .badge-icon{
-    position:absolute; font-size:20px; width:34px; height:34px; border-radius:50%;
+    position:absolute; font-size:18px; width:30px; height:30px; border-radius:50%;
     background:var(--white); display:flex; align-items:center; justify-content:center;
-    box-shadow:0 3px 8px rgba(0,0,0,0.12); border:2px solid var(--sky-100);
+    box-shadow:0 2px 6px rgba(0,0,0,0.12); border:1.5px solid var(--sky-100);
   }
-  .col-left .node .badge-icon{top:-6px; left:-6px;}
-  .col-right .node .badge-icon{top:-6px; right:-6px;}
+  .col-left .node .badge-icon{top:-5px; left:-5px;}
+  .col-right .node .badge-icon{top:-5px; right:-5px;}
 
   .node .dots-badge{
-    position:absolute; bottom:-12px; left:50%; transform:translateX(-50%);
-    font-size:10px; letter-spacing:2px; color:var(--gold-700); background:var(--gold-50);
-    border:1px solid var(--gold-300); border-radius:12px; padding:2px 10px;
-    box-shadow:0 3px 6px rgba(0,0,0,0.08); white-space:nowrap; font-weight:900;
+    position:absolute; bottom:-10px; left:50%; transform:translateX(-50%);
+    font-size:9px; letter-spacing:2px; color:var(--gold-700); background:var(--gold-50);
+    border:1px solid var(--gold-300); border-radius:10px; padding:2px 8px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.08); white-space:nowrap; font-weight:900;
   }
 
   .node .color-swatch{
-    width:52px; height:52px; border-radius:50%; box-shadow:0 3px 8px rgba(0,0,0,0.18);
-    border:4px solid var(--white);
+    width:44px; height:44px; border-radius:50%; box-shadow:0 3px 8px rgba(0,0,0,0.15);
+    border:3px solid var(--white);
   }
 
   .node.selected, .node.dragging{
     border-color:var(--sky-500); border-style:solid;
-    box-shadow:0 0 0 6px rgba(14, 165, 233, 0.25);
-    transform:scale(1.07);
+    box-shadow:0 0 0 5px rgba(14, 165, 233, 0.25);
+    transform:scale(1.05);
     background:var(--sky-50);
   }
   .node.matched{
     border-style:solid; border-color:var(--gold-400); background:var(--gold-50);
-    cursor:default; color:var(--sky-800); box-shadow:0 4px 12px rgba(245,158,11,0.2);
+    cursor:default; color:var(--sky-800); box-shadow:0 3px 8px rgba(245,158,11,0.2);
   }
   .node.matched:hover, .node.matched:active{transform:none;}
   .node.wrong-shake{animation:shakeAnim .45s ease;}
   @keyframes shakeAnim{
-    0%,100%{transform:translateX(0);} 20%{transform:translateX(-10px);} 40%{transform:translateX(10px);}
-    60%{transform:translateX(-6px);} 80%{transform:translateX(6px);}
+    0%,100%{transform:translateX(0);} 20%{transform:translateX(-8px);} 40%{transform:translateX(8px);}
+    60%{transform:translateX(-5px);} 80%{transform:translateX(5px);}
   }
   .node.matched::after{
-    content:'✓'; position:absolute; bottom:-8px; right:-4px;
+    content:'✓'; position:absolute; bottom:-6px; right:-3px;
     background:linear-gradient(135deg, var(--sky-500), var(--sky-700)); color:#fff;
-    width:28px; height:28px; border-radius:50%; font-size:16px; font-weight:900;
-    display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(0,0,0,0.2);
+    width:24px; height:24px; border-radius:50%; font-size:14px; font-weight:900;
+    display:flex; align-items:center; justify-content:center; box-shadow:0 2px 5px rgba(0,0,0,0.2);
     border:2px solid #fff;
   }
 
+  /* Compact Mode khusus level dengan item banyak (6 atau 7 item) di mobile */
+  .dense-level .node{
+    max-width:96px;
+    font-size:clamp(18px, 4vw, 28px);
+  }
+  .dense-level .node.emoji-icon{font-size:clamp(24px, 5.2vw, 36px);}
+  .dense-level .node.arabic-char{font-size:clamp(26px, 5.5vw, 38px);}
+  .dense-level .node.text-node{min-height:48px; font-size:clamp(12px, 2.5vw, 15px); padding:6px 8px;}
+  .dense-level .board-col{gap:10px;}
+
   /* ---------- MODAL SELESAI LEVEL ---------- */
   .modal-backdrop{
-    position:fixed; inset:0; background:rgba(12, 74, 110, 0.6); display:none;
-    align-items:center; justify-content:center; z-index:200; padding:18px; backdrop-filter:blur(5px);
+    position:fixed; inset:0; background:rgba(12, 74, 110, 0.65); display:none;
+    align-items:center; justify-content:center; z-index:200; padding:16px; backdrop-filter:blur(4px);
+    overflow-y:auto; -webkit-overflow-scrolling:touch;
   }
   .modal-backdrop.show{display:flex;}
   .modal-box{
-    background:var(--white); border-radius:30px; padding:32px 24px; max-width:420px; width:100%;
-    text-align:center; box-shadow:var(--shadow-lg); border:4px solid var(--gold-300);
-    animation:popInModal .4s cubic-bezier(0.34, 1.56, 0.64, 1); position:relative;
+    background:var(--white); border-radius:28px; padding:28px 20px; max-width:400px; width:100%;
+    text-align:center; box-shadow:var(--shadow-lg); border:3.5px solid var(--gold-300);
+    animation:popInModal .38s cubic-bezier(0.34, 1.56, 0.64, 1); position:relative; margin:auto;
   }
   @keyframes popInModal{0%{transform:scale(0.6); opacity:0;} 100%{transform:scale(1); opacity:1;}}
   
-  .modal-trophy{font-size:68px; margin-bottom:4px;}
-  .modal-praise{font-size:20px; font-weight:900; color:var(--gold-600); margin:0 0 4px;}
-  .modal-box h2{margin:0 0 6px; color:var(--sky-900); font-size:27px;}
-  .modal-box p{margin:0 0 16px; font-weight:700; color:var(--ink-700); font-size:15px;}
-  .modal-stars-row{font-size:44px; letter-spacing:8px; margin-bottom:18px;}
+  .modal-trophy{font-size:60px; margin-bottom:2px;}
+  .modal-praise{font-size:18px; font-weight:900; color:var(--gold-600); margin:0 0 4px;}
+  .modal-box h2{margin:0 0 4px; color:var(--sky-900); font-size:24px;}
+  .modal-box p{margin:0 0 14px; font-weight:700; color:var(--ink-700); font-size:14px;}
+  .modal-stars-row{font-size:38px; letter-spacing:6px; margin-bottom:14px;}
   .modal-school-tag{
-    font-size:12px; font-weight:800; color:var(--sky-800); background:var(--sky-50);
-    border:1px solid var(--sky-200); padding:5px 16px; border-radius:999px; display:inline-block; margin-bottom:20px;
+    font-size:11.5px; font-weight:800; color:var(--sky-800); background:var(--sky-50);
+    border:1px solid var(--sky-200); padding:4px 14px; border-radius:999px; display:inline-block; margin-bottom:18px;
   }
-  .modal-btn-row{display:flex; gap:10px; flex-wrap:wrap; justify-content:center;}
+  .modal-btn-row{display:flex; gap:8px; flex-wrap:wrap; justify-content:center;}
   
   .action-btn{
-    font-family:'Baloo 2'; font-weight:800; font-size:16px; border:none; border-radius:16px;
-    padding:12px 22px; cursor:pointer; color:#fff; box-shadow:var(--shadow-sm); transition:all .15s ease;
+    font-family:'Baloo 2'; font-weight:800; font-size:15px; border:none; border-radius:14px;
+    padding:10px 18px; cursor:pointer; color:#fff; box-shadow:var(--shadow-sm); transition:all .15s ease;
   }
   .action-btn:active{transform:scale(0.95);}
   .action-btn.btn-sky{background:linear-gradient(135deg, var(--sky-500), var(--sky-700));}
@@ -348,12 +400,23 @@
 
   #confetti-canvas{position:fixed; inset:0; pointer-events:none; z-index:300;}
 
+  /* Media Queries Mobile Spesifik */
   @media (max-width:480px){
-    .board-col{gap:12px;}
-    .node{max-width:110px;}
-    .brand-info h2{font-size:17px;}
-    .brand-info span{font-size:10px;}
-    .board-container{padding:16px 8px;}
+    .screen{padding:12px 10px calc(70px + env(safe-area-inset-bottom, 20px));}
+    .brand-pill{padding:6px 14px;}
+    .brand-info h2{font-size:16px;}
+    .brand-info span{font-size:9.5px;}
+    .brand-logo{width:36px; height:36px; font-size:19px;}
+    .top-bar{right:8px;}
+    .top-btn{width:38px; height:38px; font-size:16px;}
+    .hero{margin:10px 0 6px;}
+    .mascot-hero{font-size:54px;}
+    
+    .board-container{padding:12px 8px; border-radius:20px;}
+    .board-col{gap:10px;}
+    .node{max-width:92px;}
+    .dense-level .node{max-width:76px;}
+    .node.text-node{min-height:50px; font-size:13px; padding:6px 8px;}
   }
 </style>
 </head>
@@ -420,7 +483,7 @@
 
   <div class="progress-tracker" id="progressTracker"></div>
 
-  <div class="board-container">
+  <div class="board-container" id="boardContainer">
     <div class="board" id="gameBoard">
       <svg id="svgLines"></svg>
       <div class="board-col col-left" id="boardColLeft"><div class="board-col-head" id="leftHeadText">Kolom A</div></div>
@@ -659,7 +722,7 @@ function resetAllStars(){
   }
 }
 
-/* ================= AUDIO & SPEECH SYNTHESIZER (OFFLINE-CAPABLE) ================= */
+/* ================= AUDIO & SPEECH SYNTHESIZER ================= */
 let audioCtx = null;
 let muted = false;
 let voiceEnabled = true;
@@ -721,7 +784,7 @@ function playComplete(){
   [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => tone(f, i * 0.12, 0.26, 'sine', 0.22));
 }
 
-// Text to Speech (Suara Bahasa Indonesia Ramah Anak)
+// Text to Speech (Bahasa Indonesia Ramah Anak)
 function speak(text){
   if(!voiceEnabled || muted || !('speechSynthesis' in window)) return;
   try {
@@ -746,7 +809,7 @@ function speakEncourage(){
   speak(e);
 }
 
-// Top Controls Event Handlers
+// Top Controls
 document.getElementById('soundBtn').addEventListener('click', ()=>{
   muted = !muted;
   document.getElementById('soundBtn').textContent = muted ? '🔇' : '🔊';
@@ -774,6 +837,7 @@ let selectedLeftNode = null;
 
 const svg = document.getElementById('svgLines');
 const board = document.getElementById('gameBoard');
+const boardContainer = document.getElementById('boardContainer');
 const colLeft = document.getElementById('boardColLeft');
 const colRight = document.getElementById('boardColRight');
 
@@ -806,7 +870,6 @@ function renderLevels(){
   });
 }
 
-// Filter Button Click Handlers
 document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.addEventListener('click', (e)=>{
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -832,7 +895,7 @@ document.getElementById('heroMascot').addEventListener('click', ()=>{
 
 document.getElementById('btnResetProgress').addEventListener('click', resetAllStars);
 
-/* ================= GAMEPLAY CONTROLLER ================= */
+/* ================= GAMEPLAY SETUP ================= */
 function shuffleArray(arr){
   const a = [...arr];
   for(let i = a.length - 1; i > 0; i--){
@@ -853,6 +916,13 @@ function startLevel(idx){
   document.getElementById('gameInstructionText').textContent = lv.instruction;
   document.getElementById('leftHeadText').textContent = lv.leftHead;
   document.getElementById('rightHeadText').textContent = lv.rightHead;
+
+  // Berikan class dense-level jika itemnya 6 atau 7 agar proporsional di mobile
+  if(lv.pairs.length >= 6){
+    boardContainer.classList.add('dense-level');
+  } else {
+    boardContainer.classList.remove('dense-level');
+  }
 
   // Progress Dots
   const tracker = document.getElementById('progressTracker');
@@ -924,8 +994,8 @@ function startLevel(idx){
   });
 
   showScreen('screen-game');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // Suarakan petunjuk awal level
   setTimeout(()=>{
     speak(lv.speakInstruction || lv.instruction);
   }, 400);
@@ -936,7 +1006,7 @@ document.getElementById('btnReplayAudio').addEventListener('click', ()=>{
   speak(lv.speakInstruction || lv.instruction);
 });
 
-/* ================= INTERAKSI DUAL (DRAG & DROP + TAP TO CONNECT) ================= */
+/* ================= INTERAKSI HYBRID (TAP TO CONNECT & DRAG) ================= */
 function attachNodeInteractions(el, side){
   if(side === 'left'){
     el.addEventListener('pointerdown', handleLeftPointerDown);
@@ -978,7 +1048,7 @@ function handleLeftPointerDown(e){
   tempLine.setAttribute('stroke-dasharray','4 8');
   svg.appendChild(tempLine);
 
-  window.addEventListener('pointermove', handlePointerMove);
+  window.addEventListener('pointermove', handlePointerMove, { passive: true });
   window.addEventListener('pointerup', handlePointerUp);
 }
 
@@ -986,7 +1056,8 @@ function handlePointerMove(e){
   if(!dragging || !tempLine) return;
   const dx = e.clientX - startX;
   const dy = e.clientY - startY;
-  if(Math.hypot(dx, dy) > 10){
+  
+  if(Math.hypot(dx, dy) > 12){
     movedFar = true;
   }
   const boardRect = board.getBoundingClientRect();
@@ -1006,7 +1077,7 @@ function handlePointerUp(e){
   dragFromEl.classList.remove('dragging');
 
   if(movedFar && rightNode && !rightNode.classList.contains('matched')){
-    // Drag mode: langung cocokkan
+    // Mode Tarik Garis (Drag Match)
     if(rightNode.dataset.key === dragKey){
       processCorrectMatch(dragFromEl, rightNode);
     } else {
@@ -1017,7 +1088,7 @@ function handlePointerUp(e){
       selectedLeftNode = null;
     }
   } else if(!movedFar){
-    // Tap mode: aktifkan highlight kartu kiri
+    // Mode Sentuh / Ketuk (Tap to Connect)
     if(selectedLeftNode === dragFromEl){
       selectedLeftNode.classList.remove('selected');
       selectedLeftNode = null;
@@ -1118,7 +1189,7 @@ function drawPermanentMatchLine(leftEl, rightEl){
   line.setAttribute('x1', a.x); line.setAttribute('y1', a.y);
   line.setAttribute('x2', a.x); line.setAttribute('y2', a.y);
   line.setAttribute('stroke', 'var(--sky-700)');
-  line.setAttribute('stroke-width', '6');
+  line.setAttribute('stroke-width', '5.5');
   line.setAttribute('stroke-linecap','round');
   line.dataset.leftKey = leftEl.dataset.key;
   svg.appendChild(line);
@@ -1144,13 +1215,14 @@ function redrawAllMatchLines(){
       line.setAttribute('x1', a.x); line.setAttribute('y1', a.y);
       line.setAttribute('x2', b.x); line.setAttribute('y2', b.y);
       line.setAttribute('stroke', 'var(--sky-700)');
-      line.setAttribute('stroke-width', '6');
+      line.setAttribute('stroke-width', '5.5');
       line.setAttribute('stroke-linecap','round');
       svg.appendChild(line);
     }
   });
 }
 window.addEventListener('resize', redrawAllMatchLines);
+window.addEventListener('orientationchange', ()=> setTimeout(redrawAllMatchLines, 100));
 
 /* ================= LEVEL COMPLETION ================= */
 function handleLevelCompletion(){
@@ -1221,12 +1293,12 @@ window.addEventListener('resize', resizeConfettiCanvas);
 function triggerConfetti(){
   const colors = ['#0EA5E9', '#38BDF8', '#F59E0B', '#FBBF24', '#10B981', '#EC4899'];
   const particles = [];
-  for(let i = 0; i < 150; i++){
+  for(let i = 0; i < 140; i++){
     particles.push({
       x: Math.random() * confettiCanvas.width,
       y: -20 - Math.random() * 200,
-      w: 7 + Math.random() * 6,
-      h: 9 + Math.random() * 8,
+      w: 6 + Math.random() * 6,
+      h: 8 + Math.random() * 8,
       color: colors[Math.floor(Math.random() * colors.length)],
       speed: 2.5 + Math.random() * 3.5,
       drift: -1.5 + Math.random() * 3,
